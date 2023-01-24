@@ -1,5 +1,5 @@
 import './App.css';
-import React, { useState } from "react";
+import React from "react";
 import {
   Routes,
   Route,
@@ -18,7 +18,7 @@ function App() {
 
   const withAuth = (WrappedComponent) => {
     return (props) => {
-        const email = localStorage.getItem("email");
+        const email = localStorage.getItem("username");
         const password = localStorage.getItem("password");
         if (!email || !password) {
             return <Navigate to="/login" />

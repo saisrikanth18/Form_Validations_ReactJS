@@ -9,7 +9,7 @@ const Auth = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const navigate = useNavigate();
     useEffect(() => {
-        const email = localStorage.getItem("email");
+        const email = localStorage.getItem("username");
         const password = localStorage.getItem("password");
         if (email && password) {
             setIsLoggedIn(true);
@@ -20,12 +20,29 @@ const Auth = () => {
         navigate("/home");
     }
 
+    const [username, setUsername] = useState("");
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [mobileNumber, setMobileNumber] = useState("");
     const [birthday, setBirthday] = useState("");
+
     const [formType, setFormType] = useState("login");
+
+    const [age, setAge] = useState(null);
+
+    const calculateAge = (birthday) => {
+        const birthdate = new Date(birthday);
+        const today = new Date();
+        let age = today.getFullYear() - birthdate.getFullYear();
+        const m = today.getMonth() - birthdate.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < birthdate.getDate())) {
+            age--;
+        }
+        setAge(age);
+    }
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -37,7 +54,7 @@ const Auth = () => {
             setIsLoggedIn(true);
         } else {
             // Save the user's credentials to the local storage
-            localStorage.setItem("email", email);
+            localStorage.setItem("username", username);
             localStorage.setItem("password", password);
             // Navigate to the login page
             setFormType("login");
@@ -49,16 +66,17 @@ const Auth = () => {
             <h2 className="form-title">{formType === "login" ? "Login" : "Sign Up"}</h2>
             <div className="form-group">
                 <label>
-                    Email:
+                    Username:
                     <input
                         className="form-control"
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required={formType === "signup"}
+                        type="text"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        required
                     />
                 </label>
             </div>
+
             <div className="form-group">
                 <label>
                     Password:
@@ -85,6 +103,41 @@ const Auth = () => {
                             />
                         </label>
                     </div>
+                    <div className="form-group" style={{ display: 'flex' }}>
+                        <label style={{ display: 'inline-block', marginRight: '75px' }}>
+                            First Name:
+                            <input
+                                className="form-control"
+                                type="text"
+                                value={firstName}
+                                onChange={(e) => setFirstName(e.target.value)}
+                                required
+                            />
+                        </label>
+                        <label style={{ display: 'inline-block' }}>
+                            Last Name:
+                            <input
+                                className="form-control"
+                                type="text"
+                                value={lastName}
+                                onChange={(e) => setLastName(e.target.value)}
+                                required
+                            />
+                        </label>
+                    </div>
+                    <div className="form-group">
+                        <label>
+                            Email:
+                            <input
+                                className="form-control"
+                                type="email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                required={formType === "signup"}
+                            />
+                        </label>
+                    </div>
+
                     <div className="form-group">
                         <label>
                             Mobile Number:
@@ -104,10 +157,14 @@ const Auth = () => {
                                 className="form-control"
                                 type="date"
                                 value={birthday}
-                                onChange={(e) => setBirthday(e.target.value)}
+                                onChange={(e) => {
+                                    setBirthday(e.target.value);
+                                    calculateAge(e.target.value);
+                                }}
                                 required
                             />
                         </label>
+                        {age !== null && <p>You are {age} years old.</p>}
                     </div>
                 </>
             )}
@@ -135,7 +192,7 @@ const Home = () => {
 
     const handleLogout = () => {
         // Remove the user's credentials from the local storage
-        localStorage.removeItem("email");
+        localStorage.removeItem("username");
         localStorage.removeItem("password");
         // Navigate back to the login page
         navigate("/login");
