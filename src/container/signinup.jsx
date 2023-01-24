@@ -3,6 +3,7 @@ import {
     Navigate,
     useNavigate,
 } from "react-router-dom";
+import ProfileCard from "../profileCard/profileCard";
 import './signinup.css';
 
 const Auth = () => {
@@ -201,11 +202,13 @@ const Home = () => {
     return (
         <>
             <div>
-                Hello
+                <ProfileCard />
             </div>
-            <button onClick={handleLogout}>
-                Logout
-            </button>
+            <div className="logout">
+                <button className="btn-logout" onClick={handleLogout}>
+                    Logout
+                </button>
+            </div>
         </>
     )
 };

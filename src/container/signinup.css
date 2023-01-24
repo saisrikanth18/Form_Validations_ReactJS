@@ -2,7 +2,7 @@
     max-width: 600px;
     margin: 50px auto;
     padding: 30px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     border-radius: 10px;
     background-color: #fff;
 }
@@ -40,7 +40,7 @@
     text-align: center;
     align-items: center;
     justify-content: center;
-    
+
 }
 
 .btn-primary {
@@ -62,4 +62,22 @@
 
 .btn-secondary:hover {
     background-color: #5a6268;
+}
+
+.logout {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: -70px;
+}
+
+.btn-logout {
+    padding: 10px 50px;
+    border: none;
+    border-radius: 50px;
+    font-size: 18px;
+    color: rgb(17, 16, 16);
+    background-color: #FFFF00;
+    text-shadow: 0px 0px 10px #000000;
+    box-shadow: inset 0px 0px 10px #000000;
 }

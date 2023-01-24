@@ -6,6 +6,7 @@ import {
   Navigate
 } from "react-router-dom";
 import { Auth, Change, Home } from './container/signinup';
+import Navbar from './Navbar/Navbar';
 
 function App() {
   // const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -18,24 +19,27 @@ function App() {
 
   const withAuth = (WrappedComponent) => {
     return (props) => {
-        const email = localStorage.getItem("username");
-        const password = localStorage.getItem("password");
-        if (!email || !password) {
-            return <Navigate to="/login" />
-        }
-        return <WrappedComponent {...props} />
+      const email = localStorage.getItem("username");
+      const password = localStorage.getItem("password");
+      if (!email || !password) {
+        return <Navigate to="/login" />
+      }
+      return <WrappedComponent {...props} />
     }
-}
+  }
 
-const HomeWithAuth = withAuth(Home);
+  const HomeWithAuth = withAuth(Home);
 
   return (
-    <Routes>
-      <Route exact path="/" element={<Change />} />
-      <Route path="/login" element={<Auth />} />
-      {/* <Route path="/signup" element={<Signup />} /> */}
-      <Route path="/home" element={<HomeWithAuth />} />
-    </Routes>
+    <>
+      <Navbar />
+      <Routes>
+        <Route exact path="/" element={<Change />} />
+        <Route path="/login" element={<Auth />} />
+        {/* <Route path="/signup" element={<Signup />} /> */}
+        <Route path="/home" element={<HomeWithAuth />} />
+      </Routes>
+    </>
   );
 }
 
