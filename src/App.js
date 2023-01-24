@@ -1,24 +1,41 @@
-import logo from './logo.svg';
 import './App.css';
+import React, { useState } from "react";
+import {
+  Routes,
+  Route,
+  Navigate
+} from "react-router-dom";
+import { Auth, Change, Home } from './container/signinup';
 
 function App() {
+  // const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  // const email = localStorage.getItem("email");
+  // const password = localStorage.getItem("password");
+  // if (email && password) {
+  //   setIsLoggedIn(true);
+  // }
+
+  const withAuth = (WrappedComponent) => {
+    return (props) => {
+        const email = localStorage.getItem("email");
+        const password = localStorage.getItem("password");
+        if (!email || !password) {
+            return <Navigate to="/login" />
+        }
+        return <WrappedComponent {...props} />
+    }
+}
+
+const HomeWithAuth = withAuth(Home);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Routes>
+      <Route exact path="/" element={<Change />} />
+      <Route path="/login" element={<Auth />} />
+      {/* <Route path="/signup" element={<Signup />} /> */}
+      <Route path="/home" element={<HomeWithAuth />} />
+    </Routes>
   );
 }
 
